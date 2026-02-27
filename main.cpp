@@ -6,7 +6,7 @@
 
 int main() {
 
-  Vec2<double> test1(5, 2);
+  Vec2<double> test1(5, 4);
   Vec2<double> test2(10, 3);
   Vec2<double> test3(test1);
   Vec2<double> test4(test1 - (double)1e-4);

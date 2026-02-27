@@ -1,5 +1,7 @@
 CXX      = g++
-CXXFLAGS = -g -std=c++23 -Wall -Iinclude
+CXXFLAGS = -g -std=c++23 -Wall -Iinclude 
+
+
 
 SRC_DIR  = src
 OBJ_DIR  = executable
@@ -29,3 +31,5 @@ clean:
 
 run: $(TARGET)
 	./$(TARGET)
+
+build: clean $(TARGET)

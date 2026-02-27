@@ -2,16 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug C (gdb)",
+      "name": "Debug (gdb + make)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "program": "${workspaceFolder}/executable/main.exe",
       "args": [],
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
-      "preLaunchTask": "C/C++: gcc build active file",
+      "preLaunchTask": "make build",
       "externalConsole": false
     }
   ]
