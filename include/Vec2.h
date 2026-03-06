@@ -1,7 +1,7 @@
 #pragma once
 #include <ostream>
 #include <cmath>
-#include "constant.h"
+#include "constants.h"
 
 template<typename T>
 struct Vec2 {

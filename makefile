@@ -1,7 +1,6 @@
 CXX      = g++
-CXXFLAGS = -g -std=c++23 -Wall -Iinclude 
-
-
+CXXFLAGS = -g -std=c++23 -Wall -Iinclude -Itest_txt $(shell pkg-config --cflags gtkmm-4.0)
+LDLIBS   = $(shell pkg-config --libs gtkmm-4.0)
 
 SRC_DIR  = src
 OBJ_DIR  = executable
@@ -13,23 +12,22 @@ OBJ      = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(filter $(SRC_DIR)/%.cpp,
 
 TARGET   = $(BIN_DIR)/main.exe
 
-all: clean $(TARGET) run
+all: $(TARGET) run
 
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+$(TARGET): $(OBJ) | $(BIN_DIR)
+	$(CXX) $(OBJ) -o $@ $(LDLIBS)
 
-$(OBJ_DIR)/main.o: main.cpp
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/main.o: main.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-clean:
-	rm -rf $(OBJ_DIR)/*.o $(TARGET)
+$(OBJ_DIR) $(BIN_DIR):
+	mkdir -p $@
 
 run: $(TARGET)
 	./$(TARGET)
 
-build: clean $(TARGET)
+clean:
+	rm -rf $(OBJ_DIR)/*.o $(TARGET)
