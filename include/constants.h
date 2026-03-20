@@ -1,5 +1,4 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
 constexpr double arena_size = 100.0;
 constexpr double new_ball_radius = 1.;
@@ -20,4 +19,3 @@ namespace cons {
   constexpr T tol = T{1e-6};
 }
 
-#endif

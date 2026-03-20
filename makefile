@@ -12,7 +12,7 @@ OBJ      = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(filter $(SRC_DIR)/%.cpp,
 
 TARGET   = $(BIN_DIR)/main.exe
 
-all: $(TARGET) run
+all: clean $(TARGET)
 
 $(TARGET): $(OBJ) | $(BIN_DIR)
 	$(CXX) $(OBJ) -o $@ $(LDLIBS)

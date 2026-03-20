@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include "class.h"
 #include "Vec2.h"
 
 

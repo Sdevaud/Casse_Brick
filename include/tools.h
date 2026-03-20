@@ -1,6 +1,7 @@
 #pragma once
 #include <ostream>
 #include <cmath>
+#include <type_traits>
 #include "constants.h"
 
 template<typename T>
@@ -63,8 +64,6 @@ template<typename T>
 std::ostream& operator<<(std::ostream& os, const Vec2<T>& v) {
     return os << "(" << v.x << ", " << v.y << ")";
 }
-
-#include <type_traits>
 
 template<typename T>
 bool operator==(const Vec2<T>& a, const Vec2<T>& b) {
