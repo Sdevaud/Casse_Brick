@@ -64,6 +64,10 @@ std::string message::invalid_delta(double x, double y)
     return "Delta norm (" + to_string(x) + ";" + to_string(y) +
            ") must be <= delta_norm_max\n";
 }
+std::string message::invalid_radius(double r)
+{
+    return "Radius (" + to_string(r) + ") must be > 0\n";
+}
 
 std::string message::collision_bricks(size_t brick1_index, size_t brick2_index)
 {

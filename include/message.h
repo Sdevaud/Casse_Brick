@@ -31,6 +31,8 @@ std::string invalid_brick_type(int type);
 std::string invalid_hit_points(int hit_points);
 // delta_norm must be <= delta_norm_max
 std::string invalid_delta(double x, double y);
+// Radius must be > 0
+std::string invalid_radius(double r);
 
 // no collision of any sort when using a margin of 0 (instead of epsil_zero)
 std::string collision_bricks(size_t brick1_index, size_t brick2_index);

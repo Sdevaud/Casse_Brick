@@ -1,19 +1,19 @@
 #include <iostream>
 #include <string>
-#include "Vec2.h"
 
+#include "ball.h"
+#include "brick.h"
+#include "paddle.h"
+#include "tools.h"
 
-void test_class() {std::cout << "classe.cpp \n" ;}
+bool Ball::intersects(const Brick* brick) const {
+  return ::intersects(circle, brick->get_square());
+}
 
-class object {
-  private :
-  std::string* Form;
-  double masse;
-  int vitesse;
-  Vec2<int> pos;
-  Vec2<int> direction;
+bool Ball::intersects(const Paddle& paddle) const {
+  return ::intersects(circle, paddle.get_circle());
+}
 
-
-  public :
-
-};
+bool Ball::intersects(const Ball* ball) const {
+  return ::intersects(circle, ball->get_circle());
+}

@@ -5,30 +5,29 @@
 #include <array>
 
 #include "graph.h"
-#include "Vec2.h"
-#include "save.h"
-#include "readfromfile.h"
+#include "games.h"
 
 
 
 int main(int argc, char* argv[])
 {
+  Games game;
 
-  int score;
-  int lifes;
-  std::array<double, 3> paddles;
-  std::vector<std::vector<double>> bricks;
-  std::vector<std::array<double, 5>> balls;
+  do {
+    std::cout << "Enter the name of the file to read (or 'exit' to quit): \n";
+    std::string filename;
+    std::getline(std::cin, filename);
 
-  if (argc < 2) {
-    std::cout << "Usage: " << argv[0] << " fichier\n";
-    return 1;
-  }
+    if (filename == "exit") {
+      break;
+    }
 
-  std::string filename = argv[1];
+    game.read_data_from_file(filename);
 
-  test_read_data(filename, bricks, paddles, balls, lifes, score);
-
+    if (!game.is_correct_initialisation()) {
+      std::cout << "Error in file reading. Please try again.\n";
+    }
+  } while (!game.is_correct_initialisation());
 
   return 0;
 }

@@ -2,6 +2,8 @@
 #include <ostream>
 #include <cmath>
 #include <type_traits>
+#include <algorithm>
+
 #include "constants.h"
 
 // ----------------------- Vec2 -----------------------------
@@ -13,6 +15,10 @@ struct Vec2 {
 
     Vec2(const T& x_, const T& y_) : x(x_), y(y_) {}
     Vec2() : x(T{}), y(T{}) {}
+
+    T norm() const {
+        return (T)std::sqrt(x * x + y * y);
+    }   
 
     Vec2& operator+=(const Vec2& other) {
         x += other.x;
@@ -135,7 +141,7 @@ template<typename T>
 bool operator==(const Vec2<T>& a, const Vec2<T>& b) {
     if constexpr (std::is_floating_point_v<T>) {
         using std::abs;
-        return abs(a.x - b.x) < cons::tol<T> && abs(a.y - b.y) < cons::tol<T>;
+        return abs(a.x - b.x) < cst::tol<T> && abs(a.y - b.y) < cst::tol<T>;
     } else {
         return a.x == b.x && a.y == b.y;
     }
@@ -167,7 +173,7 @@ bool operator>(const Vec2<T>& a, const Vec2<T>& b) {
 }
 
 // ----------------------- Squares -----------------------------
-template <typname T>
+template <typename T>
 struct Square {
     Vec2<T> pos;
     T c;
@@ -213,6 +219,15 @@ struct Square {
     Square& operator/=(const T& other) {
         pos /= other;
         return *this;
+    }
+
+    bool inside_worlds() {
+        T h = c / T(2);
+        Vec2<T> min((Vec2<T>) pos - h);
+        Vec2<T> max((Vec2<T>) pos + h);
+        Vec2<T> zero ((T) 0, (T) 0);
+        Vec2<T> arena_max((T) cst::arena_size, (T) cst::arena_size);
+        return zero <= min && max <= arena_max;
     }
 };
 
@@ -301,12 +316,12 @@ std::ostream& operator<<(std::ostream& os, const Square<T>& s) {
 
 // ----------------------- Circles -----------------------------
 
-template <typname T>
-struct Cricle {
+template <typename T>
+struct Circle {
     Vec2<T> pos;
     T r;
 
-    Cricle(Vec2<T> pos_, T r_) : pos(pos_), r(r_) {}
+    Circle(Vec2<T> pos_, T r_) : pos(pos_), r(r_) {}
     Circle() : pos(Vec2<T>()), r(T{}) {}
 
     Circle& operator+=(const Vec2<T>& other) {
@@ -347,6 +362,15 @@ struct Cricle {
     Circle& operator/=(const T& other) {
         pos /= other;
         return *this;
+    }
+
+    bool inside_worlds() {
+        T h = r / T(2);
+        Vec2<T> min((Vec2<T>) pos - h);
+        Vec2<T> max((Vec2<T>) pos + h);
+        Vec2<T> zero ((T) 0, (T) 0);
+        Vec2<T> arena_max((T) cst::arena_size, (T) cst::arena_size);
+        return zero <= min && max <= arena_max;
     }
 };
 
@@ -439,7 +463,7 @@ template<typename T>
 bool operator==(const Square<T>& a, const Square<T>& b) {
     if constexpr (std::is_floating_point_v<T>) {
         using std::abs;
-        return a.pos == b.pos && abs(a.c - b.c) < cons::tol<T>;
+        return a.pos == b.pos && abs(a.c - b.c) < cst::tol<T>;
     } else {
         return a.pos == b.pos && a.c == b.c;
     }
@@ -454,7 +478,7 @@ template<typename T>
 bool operator==(const Circle<T>& a, const Circle<T>& b) {
     if constexpr (std::is_floating_point_v<T>) {
         using std::abs;
-        return a.pos == b.pos && abs(a.r - b.r) < cons::tol<T>;
+        return a.pos == b.pos && abs(a.r - b.r) < cst::tol<T>;
     } else {
         return a.pos == b.pos && a.r == b.r;
     }
@@ -472,18 +496,18 @@ bool intersects(const Square<T>& a, const Square<T>& b) {
     T ah = a.c / T(2);
     T bh = b.c / T(2);
 
-    Vec2<T> aMin((Vec2<T>) a - ah);
-    Vec2<T> aMax((Vec2<T>) a + ah);
+    Vec2<T> aMin((Vec2<T>) a.pos - ah);
+    Vec2<T> aMax((Vec2<T>) a.pos + ah);
 
-    Vec2<T> bMin((Vec2<T>) b - bh);
-    Vec2<T> bMax((Vec2<T>) b + bh);
+    Vec2<T> bMin((Vec2<T>) b.pos - bh);
+    Vec2<T> bMax((Vec2<T>) b.pos + bh);
 
     return aMin <= bMax && aMax >= bMin;
 }
 
 template<typename T>
 bool intersects(const Circle<T>& a, const Circle<T>& b) {
-    Vec2<T> d = a - b;
+    Vec2<T> d = a.pos - b.pos;
     T dist2 = d.x * d.x + d.y * d.y;
     T rSum = a.r + b.r;
     return dist2 <= rSum * rSum;
@@ -493,8 +517,8 @@ template<typename T>
 bool intersects(const Square<T>& s, const Circle<T>& c) {
     T h = s.c / T(2);
 
-    Vec2<T> min((Vec2<T>) s - h);
-    Vec2<T> max((Vec2<T>) s + h);
+    Vec2<T> min((Vec2<T>) s.pos - h);
+    Vec2<T> max((Vec2<T>) s.pos + h);
 
     T closestX = std::clamp(c.pos.x, min.x, max.x);
     T closestY = std::clamp(c.pos.y, min.y, max.y);
