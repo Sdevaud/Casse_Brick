@@ -13,6 +13,14 @@ int main(int argc, char* argv[])
 {
   Games game;
 
+  // test only the initilisation mode if a file is provided as an argument, otherwise enter interactive mode
+  if (argc == 2) {
+    std::cout << "launch init mode" << std::endl;
+    std::string filename = argv[1];
+    game.read_data_from_file(filename);
+    return 0;
+  }
+
   do {
     std::cout << "Enter the name of the file to read (or 'exit' to quit): \n";
     std::string filename;
