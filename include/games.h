@@ -11,7 +11,7 @@ private:
   Paddle paddle;
   int score = 0;
   int lifes = 0;
-  bool correct_initialisation = true;
+  bool correct_initialisation = false;
 
 public:
 //------------------------ Constructors, Destructors and operators= -----------------------------
@@ -26,7 +26,7 @@ public:
   Games(Games&&) = default;
   Games& operator=(Games&&) = default;
 
-  ~Games() { reset_game(); }
+  ~Games() = default;
 
   //------------------------ Getters and Setters -----------------------------
 

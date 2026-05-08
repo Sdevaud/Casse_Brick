@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_map>
 #include <vector>
 #include <string>
 #include <array>
@@ -21,28 +20,6 @@ namespace cst {
   constexpr unsigned score_per_hit = 10;
   constexpr unsigned score_per_life = 300;
   constexpr unsigned dt = 25; // time interval between each step in milliseconds
-}
-
-namespace file {
-  enum class Keyword {
-    OUTPUT,
-    SCORE,
-    LIFES,
-    PADDLE,
-    BRICKS,
-    BALLS,
-    UNKNOWN
-  };
-
-  inline std::unordered_map<std::string, Keyword> keywordMap = {
-    {"output:", Keyword::OUTPUT},
-    {"score", Keyword::SCORE},
-    {"lives", Keyword::LIFES},
-    {"paddle", Keyword::PADDLE},
-    {"bricks", Keyword::BRICKS},
-    {"balls", Keyword::BALLS},
-    {"unknow", Keyword::UNKNOWN}
-  };
 }
 
 

@@ -6,6 +6,7 @@
 
 #include "games.h"
 #include "constants.h"
+#include "type.h"
 #include "tools.h"
 #include "brick.h"
 #include "ball.h"
@@ -155,6 +156,13 @@ void Games::case_of_txt_file(std::ifstream& file,
       }
       break;
     }
+
+    case file::Keyword::UNKNOWN : {
+      std::cout << "Unknown keyword: " << line << std::endl;
+      correct_initialisation = false;
+      exit(1);
+      return;
+    }
   }
 }
 
@@ -167,6 +175,9 @@ void Games::read_data_from_file(const std::string& filename) {
     correct_initialisation = false;
     return;
   }
+
+  // we suppose that the file is correct until we find an error
+  correct_initialisation = true; 
 
   while (std::getline(file, line) && correct_initialisation) {
     if (line.empty()) continue;
@@ -189,7 +200,7 @@ void Games::read_data_from_file(const std::string& filename) {
 void Games::reset_game() {
   lifes = 0;
   score = 0;
-  correct_initialisation = true;
+  correct_initialisation = false;
   for (Brick* brick : bricks) {
     delete brick;
   }

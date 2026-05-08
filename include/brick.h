@@ -28,6 +28,8 @@ public:
   virtual bool intersects(const Paddle& paddle) const;
   virtual bool intersects(const Ball* ball) const;
   virtual bool inside_worlds() { return square.inside_worlds(); }
+
+  virtual ~Brick() = default;
 };
 
 class RainbowBrick : public Brick {
@@ -39,6 +41,7 @@ public:
   RainbowBrick(const RainbowBrick&) = default;
   RainbowBrick(double x_, double y_, double size_, int type_, int hit_points_) : Brick(x_, y_, size_, type_), hit_points(hit_points_) {}
   RainbowBrick() = default;
+  ~RainbowBrick() override = default;
 
   //------------------------- Getters and Setters -----------------------------
   int get_hit_points() const { return hit_points; }
@@ -52,6 +55,7 @@ public:
   BallBrick(const BallBrick&) = default;
   BallBrick(double x_, double y_, double size_, int type_) : Brick(x_, y_, size_, type_) {}
   BallBrick() : Brick() {}
+  ~BallBrick() override = default;
 };
 
 class SplitBrick : public Brick {
@@ -61,4 +65,5 @@ public:
   SplitBrick(const SplitBrick&) = default;
   SplitBrick(double x_, double y_, double size_, int type_) : Brick(x_, y_, size_, type_) {}
   SplitBrick() : Brick() {}
+  ~SplitBrick() override = default;
 };

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "constants.h"
+#include "type.h"
 
 // ----------------------- Vec2 -----------------------------
 
